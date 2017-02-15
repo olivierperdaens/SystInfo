@@ -21,12 +21,12 @@ char *strcat(char *dest, const char *src){
 }
 
 int main(int argc, const char *argv[]){
-    char str1[]="salut";
-    char str2[]=", ca va?";
-    //char *str1_p=str1;
-    //char *str2_p=str2;
-    char *str=strcat(str1, str2);
-    //printf("%s \n",str);
-    printf("%s\n ",str);
+    char *str1="salut";
+    char *str2=", ca va?";
+    char *str3=(char*) malloc(100*sizeof(str1));
+    str3=str1;
+    char *str=strcat(str3, str2);
+    printf("%s \n",str);
+    free(str3);
     return EXIT_SUCCESS;
 }
