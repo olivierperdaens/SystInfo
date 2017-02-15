@@ -30,7 +30,7 @@ int strcasecmp(const char *s1, const char *s2){
 	if(s2[j]>='A' && s2[j]<='Z') str2[j]='a'+s2[j]-'A';
 	else str2[j]=s2[j];
     }
-    printf("%s \n%s \n",str1, str2);
+
     for(k=0; k<strlen(s1)+1; k++){
 	if(str1[k]<str2[k]) return -1;
 	if(str1[k]>str2[k]) return 1;
@@ -38,17 +38,27 @@ int strcasecmp(const char *s1, const char *s2){
     return 0;
 }
 
-int main(int argc, const char *argv[]){	
-    char *str1="CANON";
-    char *str2="CANON";
-    //char *str3=(char*) malloc(100*sizeof(char));
-    //size_t i;
-    //for(i=0;i<strlen(str1);i++){
-//	str3[i]=str1[i];
-  //  }
-    //char *str=strcat(str3, str2);
-    int i=strcasecmp(str1,str2);
-    printf("%d \n",i);
-    //free(str3);
+int main(int argc, const char *argv[]){
+    if(strcasecmp(argv[1],"strlen")==0){
+        int length=strlen(argv[2]);
+        printf("The length of %s is %d \n ",argv[2],length);
+    }
+    else if(strcasecmp(argv[1],"strcat")==0){
+      char *str=(char*) malloc(100*sizeof(char));
+      size_t i;
+      for(i=0; i<strlen(argv[2]);i++){
+        str[i]=argv[2][i];
+      }
+      char *strc=strcat(str, argv[3]);
+      printf("The concatenation of %s and %s is %s\n",argv[2],argv[3],strc);
+      free(str);
+    }
+    else if(strcasecmp(argv[1],"strcasecmp")==0){
+        int i=strcasecmp(argv[2],argv[3]);
+        if(i<0)printf("%s is lesser than %s \n",argv[2], argv[3]);
+        else if(i>0) printf("%s is greater than %s \n", argv[2], argv[3]);
+        else printf("%s is equal to %s \n", argv[2], argv[3]);
+    }
+    else  printf("The function %s is not valid, please check the available functions\n",argv[1]);
     return EXIT_SUCCESS;
 }
