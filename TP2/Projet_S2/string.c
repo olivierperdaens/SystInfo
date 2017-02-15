@@ -20,11 +20,14 @@ char *strcat(char *dest, const char *src){
    return dest;
 }
 
-int main(int argc, const char *argv[]){
-    char *str1="salut";
+int main(int argc, const char *argv[]){	
+    char *str1="salutdsdsdsds";
     char *str2=", ca va?";
-    char *str3=(char*) malloc(100*sizeof(str1));
-    str3=str1;
+    char *str3=(char*) malloc(100*sizeof(char));
+    size_t i;
+    for(i=0;i<strlen(str1);i++){
+	str3[i]=str1[i];
+    }
     char *str=strcat(str3, str2);
     printf("%s \n",str);
     free(str3);
