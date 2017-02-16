@@ -36,24 +36,39 @@ int push(node **list, int value){
     return 0;
 }
 int pop(node ** list){
-    //TODO
+    node *next_node=(*list)->next;
+    int val=(*list)->value;
+    free(*list);
+    *list=next_node;
+    return val;
+}
+void free_list(node *list){
+        
+        free(list);
+    
 }
 int main(int argc, char *argv[]){
     struct node *n1=(struct node *)malloc(sizeof(struct node));
     struct node *n2=(struct node *)malloc(sizeof(struct node));
-    //struct node **n2p=(struct node **)malloc(sizeof(struct node));
-
+    
     n1->value=1;
     n1->next=NULL;
     n2->value=2;
     n2->next=n1;
-    //n2p=n2;
+    struct node **np=&n2;
 
-    printf("This list has %d elements \n",length(n2));
+    printf("This list has %d elements \n",length(*np));
     printf("This list has %d occurences of %d \n",count(n2, 3),3);
 
-    //int push=push(n2p,0);
-    //if(push==0)printf("Succes\n");
-    //else printf("Echec\n");
+    int p=push(np,0);
+    if(p==0)printf("Succes\n");
+    else printf("Echec\n");
+    printf("This list has %d elements \n",length(*np));
+    
+    int pp=pop(np);
+    printf("The pop element is %d \n",pp);
+    printf("This list has %d elements \n",length(*np));
+
+    free_list(*np);
     return EXIT_SUCCESS;
 }
