@@ -43,9 +43,12 @@ int pop(node ** list){
     return val;
 }
 void free_list(node *list){
-        
-        free(list);
-    
+    struct node *tmp;
+    while (list !=NULL){
+        tmp=list;
+        list=list->next;
+        free(tmp);
+    }
 }
 int main(int argc, char *argv[]){
     struct node *n1=(struct node *)malloc(sizeof(struct node));
