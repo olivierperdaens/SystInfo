@@ -90,7 +90,25 @@ int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
  * Postconditions: @matrix est inchangé.
  */
 int matrix_get(const struct matrix *matrix, unsigned int i, unsigned int j){
-    //TODO
+    struct line* line=matrix->lines;
+    struct elem* elem;
+    int find =1;
+    while(line!=NULL){
+	if(i==line->i){
+	    elem=line->elems;
+	    line=0;
+	}
+	else{
+	    line=line->next;
+	}
+    }
+    if(find==1) exit(EXIT_FAILURE);
+    while(elem!=NULL){
+	if(j==elem->j) return elem->value;
+	else{
+	    elem=elem->next;
+	}
+    }
     return 0;
 }
 
@@ -140,6 +158,18 @@ struct matrix *matrix_convert(const int **array, unsigned int nlines,
 			      unsigned int ncols){
     //TODO
     return NULL;
+}
+
+void print(const struct matrix *matrix){
+    size_t i=matrix->nlines;
+    size_t j=matrix->ncols;
+    for(i=0;i<nlines;i++){
+	for(j=0;j<ncols;i++){
+	    int value=matrix_get(matrix,i,j);
+	    printf("%d ",value);
+	}
+	printf("\n");
+    }    	
 }
 
 int main(){
