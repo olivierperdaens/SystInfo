@@ -12,12 +12,41 @@
  * @return: pointeur vers la matrice ou NULL si erreur
  *
  * Préconditions: @nlines > 0 && @ncols > 0
- * Postconditions: Les éléments de la nouvelle matrice sont initialisés à 0.
+ * Postconditions: s éléments de la nouvelle matrice sont initialisés à 0.
  *		   @m->nlines > 0 && @m->ncols > 0
  */
 struct matrix *matrix_init(unsigned int nlines, unsigned int ncols){
-    //TODO
-    return NULL;
+    //create the return matrix, currently NULL, with enough memory space
+    struct matrix * mat_ret=(struct matrix *) malloc(sizeof(struct line)*nlines);
+    struct line * head_l=(struct line *) malloc(sizeof(struct elem)*ncols);
+    head_l=NULL;
+    printf("Creation de head et mat_ret\n");
+    size_t k;
+
+    for(k=nlines;k>0;k--){    
+        struct line* new_l =(struct line*) malloc(sizeof(struct elem)*ncols); 
+        new_l->i=k-1;
+        //Do a loop to add ncols elem to this line
+        struct elem* head_e=(struct elem*) malloc(sizeof(struct elem));
+        size_t l;
+        for(l=ncols;l>0;l--){
+            struct elem* new_e =(struct elem*) malloc(sizeof(struct elem));
+            new_e->j=l-1;
+            new_e->value=0;
+            new_e->next=head_e;
+            head_e=new_e;
+            printf("Ajout d'une nouvelle cologne d'indice %d \n",l-1);
+        }
+        new_l->next=head_l;
+        new_l->elems=head_e;
+        head_l=new_l;
+        printf("Ajout d'un nouvelle ligne d'indice %d \n",k-1);
+    }
+    mat_ret->nlines=nlines;
+    mat_ret->ncols=ncols;
+    mat_ret->lines=head_l;
+    printf("Finalisation de la matrice\n");
+    return mat_ret;
 }
 
 /* matrix_free
@@ -113,3 +142,13 @@ struct matrix *matrix_convert(const int **array, unsigned int nlines,
     return NULL;
 }
 
+int main(){
+    struct matrix * mat = matrix_init(5,4);
+    struct line* line1=mat->lines;
+    struct line* line2=line1->next;
+    printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
+    printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
+
+    return EXIT_SUCCESS;
+
+}
