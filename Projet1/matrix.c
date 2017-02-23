@@ -20,7 +20,6 @@ struct matrix *matrix_init(unsigned int nlines, unsigned int ncols){
     struct matrix * mat_ret=(struct matrix *) malloc(sizeof(struct line)*nlines);
     struct line * head_l=(struct line *) malloc(sizeof(struct elem)*ncols);
     head_l=NULL;
-    printf("Creation de head et mat_ret\n");
     size_t k;
 
     for(k=nlines;k>0;k--){    
@@ -35,17 +34,14 @@ struct matrix *matrix_init(unsigned int nlines, unsigned int ncols){
             new_e->value=0;
             new_e->next=head_e;
             head_e=new_e;
-            printf("Ajout d'une nouvelle cologne d'indice %d \n",l-1);
-        }
+                    }
         new_l->next=head_l;
         new_l->elems=head_e;
         head_l=new_l;
-        printf("Ajout d'un nouvelle ligne d'indice %d \n",k-1);
-    }
+            }
     mat_ret->nlines=nlines;
     mat_ret->ncols=ncols;
     mat_ret->lines=head_l;
-    printf("Finalisation de la matrice\n");
     return mat_ret;
 }
 
@@ -93,22 +89,23 @@ int matrix_get(const struct matrix *matrix, unsigned int i, unsigned int j){
     struct line* line=matrix->lines;
     struct elem* elem;
     int find =1;
-    while(line!=NULL){
-	if(i==line->i){
-	    elem=line->elems;
-	    line=0;
-	}
-	else{
-	    line=line->next;
-	}
+    while(line!=NULL&&find ==1){
+	    if(i==line->i){
+	        elem=line->elems;
+	        find=0;
+            
+	    }
+	    else{
+	        line=line->next;
+	    }
     }
     if(find==1) exit(EXIT_FAILURE);
     while(elem!=NULL){
-	if(j==elem->j) return elem->value;
-	else{
-	    elem=elem->next;
-	}
-    }
+	    if(j==elem->j) return elem->value;
+	    else{
+	        elem=elem->next;
+        }
+    }         
     return 0;
 }
 
@@ -161,24 +158,26 @@ struct matrix *matrix_convert(const int **array, unsigned int nlines,
 }
 
 void print(const struct matrix *matrix){
-    size_t i=matrix->nlines;
-    size_t j=matrix->ncols;
-    for(i=0;i<nlines;i++){
-	for(j=0;j<ncols;i++){
-	    int value=matrix_get(matrix,i,j);
-	    printf("%d ",value);
-	}
-	printf("\n");
+    size_t k=matrix->nlines;
+    size_t l=matrix->ncols;
+    size_t i,j;
+    for(i=0;i<k;i++){
+	    for(j=0;j<l;j++){
+            
+	        int value=matrix_get(matrix,i,j);
+	        printf("%d ",value);
+	    }
+	    printf("\n");
     }    	
 }
 
 int main(){
     struct matrix * mat = matrix_init(5,4);
-    struct line* line1=mat->lines;
-    struct line* line2=line1->next;
-    printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
-    printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
-
+    //struct line* line1=mat->lines;
+    //struct line* line2=line1->next;
+    //printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
+    //printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
+    print(mat);
     return EXIT_SUCCESS;
 
 }
