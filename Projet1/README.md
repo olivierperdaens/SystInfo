@@ -3,7 +3,7 @@
 ##Tâches à faire
 
 - [x] Initialisation
-- [ ] Destruction
+- [x] Destruction
 - [ ] Définition de la valeur d'un élément
 - [x] Récupération de la valeur d'un élément
 - [ ] Addition de deux matrices
