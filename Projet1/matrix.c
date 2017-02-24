@@ -54,7 +54,22 @@ struct matrix *matrix_init(unsigned int nlines, unsigned int ncols){
  * Postconditions: La mémoire de @matrix est libérée.
  */
 void matrix_free(struct matrix *matrix){
-    //TODO
+    struct line * lines = matrix->lines;
+    struct line * line_tmp;
+    while(lines!=NULL){
+	//TODO FREE ELEMS
+	struct elem * elems=lines->elems;
+	struct elem * elem_tmp;
+	while(elems != NULL){
+	    elem_tmp=elems;
+	    elems=elems->next;
+	    free(elem_tmp);
+	}
+	line_tmp=lines;
+	lines=lines->next;
+	free(line_tmp);
+   }
+    free(matrix);
 }
 
 /* matrix_set
@@ -177,6 +192,8 @@ int main(){
     //struct line* line2=line1->next;
     //printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
     //printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
+    print(mat);
+    matrix_free(mat);
     print(mat);
     return EXIT_SUCCESS;
 
