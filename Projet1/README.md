@@ -3,7 +3,7 @@
 ##Tâches à faire
 
 - [x] Initialisation
-- [x] Destruction
+- [x] Destruction (memory leak à corriger)
 - [ ] Définition de la valeur d'un élément
 - [x] Récupération de la valeur d'un élément
 - [ ] Addition de deux matrices
