@@ -18,31 +18,11 @@
 struct matrix *matrix_init(unsigned int nlines, unsigned int ncols){
     //create the return matrix, currently NULL, with enough memory space
     struct matrix * mat_ret=(struct matrix *) malloc(sizeof(struct line)*nlines);
-    struct line * head_l=(struct line *) malloc(sizeof(struct elem)*ncols);
-    head_l=NULL;
-    size_t k;
-
-    for(k=nlines;k>0;k--){    
-        struct line* new_l =(struct line*) malloc(sizeof(struct elem)*ncols); 
-        new_l->i=k-1;
-        //Do a loop to add ncols elem to this line
-        struct elem* head_e=(struct elem*) malloc(sizeof(struct elem));
-        size_t l;
-        for(l=ncols;l>0;l--){
-            struct elem* new_e =(struct elem*) malloc(sizeof(struct elem));
-            new_e->j=l-1;
-            new_e->value=0;
-            new_e->next=head_e;
-            head_e=new_e;
-                    }
-        new_l->next=head_l;
-        new_l->elems=head_e;
-        head_l=new_l;
-            }
+    mat_ret->lines=NULL;
     mat_ret->nlines=nlines;
     mat_ret->ncols=ncols;
-    mat_ret->lines=head_l;
     return mat_ret;
+
 }
 
 /* matrix_free
@@ -85,7 +65,13 @@ void matrix_free(struct matrix *matrix){
  * Postconditions: L'élément (@i,@j) de la matrice @matrix vaut @val.
  */
 int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
-    //TODO
+    //TODO Check if matrix is NULL
+    //
+    //TODO Check if line exist
+    //
+    //TODO Check if elem exist
+    //
+    //TODO Check if there are no NULL lines    
     return 0;   
 }
 
@@ -136,8 +122,14 @@ int matrix_get(const struct matrix *matrix, unsigned int i, unsigned int j){
  * Postconditions: @m1 et @m2 inchangés.
  */
 struct matrix *matrix_add(const struct matrix *m1, const struct matrix *m2){
-    //TODO
-    return NULL;
+    struct matrix * matrix=matrix_init(m1->nlines, m1->ncols);
+    size_t i,j;
+    for(i=0;i<m1->nlines;i++){
+	for(j=0;j<m1->ncols;j++){
+ 	    matrix_set(matrix,i,j,matrix_get(m1,i,j)+matrix_get(m2,i,j));
+	}
+    }
+    return matrix;
 }
 
 /* matrix_transpose
@@ -168,8 +160,14 @@ struct matrix *matrix_transpose(const struct matrix *matrix){
  */
 struct matrix *matrix_convert(const int **array, unsigned int nlines,
 			      unsigned int ncols){
-    //TODO
-    return NULL;
+    struct matrix * matrix = matrix_init(nlines,ncols);
+    size_t i,j;
+    for(i=0;i<nlines;i++){
+	for(j=0;j<ncols;j++){
+	    matrix_set(matrix, i, j, array[i][j]);
+	}
+    }
+    return matrix;
 }
 
 void print(const struct matrix *matrix){
@@ -192,9 +190,9 @@ int main(){
     //struct line* line2=line1->next;
     //printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
     //printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
-    print(mat);
+    
     matrix_free(mat);
-    print(mat);
+    
     return EXIT_SUCCESS;
 
 }
