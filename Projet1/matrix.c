@@ -25,6 +25,31 @@ struct matrix *matrix_init(unsigned int nlines, unsigned int ncols){
 
 }
 
+/* matrix_
+ * Fonction auxilliaire à matrix_add qui permet de créer une matrice de la bonne taille
+ *
+ * @m1 : premier opérande
+ * @m2 : second opérande
+ * @return : matrice nulle de taille suffisament grande pour supporter l'addition
+ *
+ * Préconditions : @m1 != NULL && @m2 != NULL
+ * PostConditions : @m1 et @m2 inchangés.
+ */
+struct matrix * matrix_(const struct matrix *m1, const struct matrix *m2){
+    size_t lines, cols;
+    if(m1->nlinse > m2->nlines) lines=m1->nlines;
+    else lines=m2->nlines;
+
+    if(m1->ncols > m2->ncols) cols=m1->ncols;
+    else cols=m2->ncols;
+
+    struct matrix * mat_ret=matrix_init(lines,cols);
+    return mat_ret;
+}
+
+
+
+
 /* matrix_free
  * Libère la mémoire allouée à une matrice.
  *
@@ -122,12 +147,13 @@ int matrix_get(const struct matrix *matrix, unsigned int i, unsigned int j){
  * Postconditions: @m1 et @m2 inchangés.
  */
 struct matrix *matrix_add(const struct matrix *m1, const struct matrix *m2){
-    struct matrix * matrix=matrix_init(m1->nlines, m1->ncols);
+    struct matrix * matrix=matrix_(m1, m2);
     size_t i,j;
-    for(i=0;i<m1->nlines;i++){
-	for(j=0;j<m1->ncols;j++){
- 	    matrix_set(matrix,i,j,matrix_get(m1,i,j)+matrix_get(m2,i,j));
-	}
+    for(i=0;i<matrix->nlines;i++){
+	    for(j=0;j<matrix->ncols;j++){
+            
+ 	        matrix_set(matrix,i,j,matrix_get(m1,i,j)+matrix_get(m2,i,j));
+	    }
     }
     return matrix;
 }
@@ -186,6 +212,17 @@ void print(const struct matrix *matrix){
 
 int main(){
     struct matrix * mat = matrix_init(5,4);
+    struct line* line1 =(struct line *) malloc(sizeof(struct line)*mat->nlines);
+    line1->i=1;
+    line1->next=NULL;
+    struct elem * elem1 =(struct elem*) malloc(sizeof(struct elem)*mat->ncols);
+    elem1->next=NULL;
+    elem1->j=1;
+    elem1->value=2;
+    line1->elems=elem1;
+    printf("size of matrix : %d \n",sizeof(mat));
+    printf("size of line : %d \n", sizeof(line1));
+    printf("size of elem : %d \n", sizeof(elem1));
     //struct line* line1=mat->lines;
     //struct line* line2=line1->next;
     //printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
