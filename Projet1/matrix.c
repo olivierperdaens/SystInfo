@@ -60,12 +60,9 @@ struct matrix * matrix_(const struct matrix *m1, const struct matrix *m2){
  */
 void matrix_free(struct matrix *matrix){
     struct line *current=matrix->lines;
-    printf("TEST\n");
     while(current !=NULL){
         struct elem *celem = current->elems;
-        printf("Current line != NULL\n");
         while(celem != NULL){
-            printf("Current elem !=NULL\n");
             struct elem *buffer =celem->next;
             free(celem);
             celem=buffer;
@@ -76,6 +73,47 @@ void matrix_free(struct matrix *matrix){
     }
     free(matrix);
 }
+
+
+/*
+ * matrix_checkline
+ * Vérifie si une line existe déja dans la matrice
+ *
+ * @matrix: Matrice
+ * @i: numéro de ligne
+ * @return: 1 si la ligne existe, 0 sinon
+ * Préconditions: TODO
+ * Postconditions: TODO
+ */
+int matrix_checkline(const struct matrix* matrix, unsigned int i){
+    struct line* line = matrix->lines;
+    while(line !=NULL){
+        if (line->i==i) return 1;
+        line=line->next;
+    }
+    return 0;
+}
+
+
+/*
+ * line_checkelem
+ * Vérifie si un elem existe déja dans la line
+ *
+ * @line : Line
+ * @j: numéro de elem
+ * @return: 1 si l'elem existe, 0 sinon
+ * Préconditions: TODO
+ * Postconditions: TODO
+ */
+int line_checkelem(const struct line* line, unsigned int j){
+    struct elem* elem = line->elems;
+    while(elem !=NULL){
+        if (elem->j==j) return 1;
+        elem=elem->next;
+    }
+    return 0;
+}
+
 
 /* matrix_set
  * Défini la valeur d'un élément de la matrice.
@@ -90,13 +128,67 @@ void matrix_free(struct matrix *matrix){
  * Postconditions: L'élément (@i,@j) de la matrice @matrix vaut @val.
  */
 int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
-    //TODO Check if matrix is NULL
-    //
-    //TODO Check if line exist
-    //
-    //TODO Check if elem exist
-    //
-    //TODO Check if there are no NULL lines    
+    int line_exist=matrix_checkline(matrix, i);
+    //la ligne existe déja
+    if(line_exist==1){
+        struct line* cline=matrix->lines;
+        while(cline->i!=i){
+            cline=cline->next;
+        }
+        //on est a la bonne ligne, on va chercher le bon element
+        int elem_exist=line_checkelem(cline,j);
+        //TODO J'EN SUIS ICI LOL
+
+    }
+    //la ligne n'existe pas
+    else{
+    
+    }
+    /*
+    if(matrix->lines!=NULL){
+        struct line* cline=matrix->lines;
+        while(cline !=NULL){
+            if(cline->i==i){
+                //la ligne existe et on doit chercher le bon elem
+            }
+            else{
+                //la cline n'est pas du bon index
+                //on définit un pointeur vers la ligne suivante
+                struct line* next_line=cline->next;
+                //Si la ligne suivante est nulle alors la ligne i n'existe pas
+                if(next_line ==NULL){
+                    // on crée la ligne d'index i à la suite  et on ajoute l'element j avec la valeur val
+                    struct line* line=(struct line*) malloc(sizeof(struct line));
+                    line->i=i;
+                    line->next=NULL;
+                    struct elem* elem=(struct elem*) malloc(sizeof(struct elem));
+                    elem->j=j;
+                    elem->value=val;
+                    line->elems=elem;
+
+                }
+                //la ligne suivante n'est pas nulle
+                else{
+                    if(cline->next->i>i){
+                        
+                    }
+                }
+            }
+        }
+    }
+    else{
+        if(val!=0){
+            struct line* line=(struct line*) malloc(sizeof(struct line));
+            line->i=i;
+            line->next=NULL;
+            struct elem* elem=(struct elem*) malloc(sizeof(struct elem));
+            elem->j=j;
+            elem->value=val;
+            elem->next=NULL;
+            line->elems=elem;
+            matrix->lines=line;
+        }
+    }*/
     return 0;   
 }
 
@@ -125,7 +217,7 @@ int matrix_get(const struct matrix *matrix, unsigned int i, unsigned int j){
             line=line->next;
         }
     }
-    if(find==1) exit(EXIT_FAILURE);
+    if(find==1) return 0;
     while(elem!=NULL){
         if(j==elem->j) return elem->value;
         else{
@@ -223,16 +315,12 @@ void print(const struct matrix *matrix){
 
 int main(){
     struct matrix * mat = matrix_init(5,4);
-    struct line* line1 =(struct line *) malloc(sizeof(struct line));
-    line1->i=1;
-    line1->next=NULL;
-    struct elem * elem1 =(struct elem*) malloc(sizeof(struct elem));
-    elem1->next=NULL;
-    elem1->j=1;
-    elem1->value=2;
-    line1->elems=elem1;
-    mat->lines=line1;
-    //struct line* line1=mat->lines;
+    int a=matrix_set(mat, 1,1,1);
+    printf("a = %d\n",a);
+    a=matrix_set(mat ,2,2,2);
+    printf("a = %d\n",a);
+    print(mat);
+        //struct line* line1=mat->lines;
     //struct line* line2=line1->next;
     //printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
     //printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
