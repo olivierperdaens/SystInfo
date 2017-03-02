@@ -128,67 +128,104 @@ int line_checkelem(const struct line* line, unsigned int j){
  * Postconditions: L'élément (@i,@j) de la matrice @matrix vaut @val.
  */
 int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
-    int line_exist=matrix_checkline(matrix, i);
-    //la ligne existe déja
-    if(line_exist==1){
-        struct line* cline=matrix->lines;
-        while(cline->i!=i){
-            cline=cline->next;
-        }
-        //on est a la bonne ligne, on va chercher le bon element
-        int elem_exist=line_checkelem(cline,j);
-        //TODO J'EN SUIS ICI LOL
-
-    }
-    //la ligne n'existe pas
-    else{
-    
-    }
-    /*
     if(matrix->lines!=NULL){
-        struct line* cline=matrix->lines;
-        while(cline !=NULL){
-            if(cline->i==i){
-                //la ligne existe et on doit chercher le bon elem
+        int line_exist=matrix_checkline(matrix, i);
+        //la ligne existe déja
+        if(line_exist==1){
+            //On initialise un pointeur vers matrix->lines
+            struct line* cline=matrix->lines;
+            while(cline->i!=i){
+                cline=cline->next;
             }
-            else{
-                //la cline n'est pas du bon index
-                //on définit un pointeur vers la ligne suivante
-                struct line* next_line=cline->next;
-                //Si la ligne suivante est nulle alors la ligne i n'existe pas
-                if(next_line ==NULL){
-                    // on crée la ligne d'index i à la suite  et on ajoute l'element j avec la valeur val
-                    struct line* line=(struct line*) malloc(sizeof(struct line));
-                    line->i=i;
-                    line->next=NULL;
-                    struct elem* elem=(struct elem*) malloc(sizeof(struct elem));
-                    elem->j=j;
-                    elem->value=val;
-                    line->elems=elem;
+            //on est a la bonne ligne, on va chercher le bon element
+            int elem_exist=line_checkelem(cline,j);
 
-                }
-                //la ligne suivante n'est pas nulle
-                else{
-                    if(cline->next->i>i){
-                        
+
+            //On initialise un pointeur vers line->elems
+            struct elem* celem=cline->elems;
+
+            //l'element existe, on va donc le remplacer
+            if(elem_exist==1){
+                if(celem->j==j){
+                    if(val !=0){
+                        celem->value=val;
+                        return 0;
+                    }
+                    else{
+                        cline->elems=celem->next;
+                        free(celem);
+                        return 0;
                     }
                 }
+                while (celem->j!=j){
+                    celem=celem->next;
+                }
+            }
+            //l'element n'existe pas, on va l'insérer
+            else{
+                struct elem* elem=(struct elem*) malloc(sizeof(struct elem));
+                elem->j=j;
+                elem->value=val;
+
+                //Si val vaut 0, alors comme l'élément n'existe pas, il ne faut pas le créer
+                if(val==0) return 0;
+                else{
+                    //Si le premier element de la ligne est d'indice plus grand, on insert le nouvel element avant
+                    if(celem->j>j){
+                        elem->next=celem;
+                        cline->elems=elem;
+                        return 0;
+                    }
+                    else{
+                        struct elem* nelem=celem->next;
+                        //on cherche l'endroit où insérer le nouvel élément afin de respecter l'ordre d'index
+                        //si le prochain element est NULL ou si son index est plus grand que j alors on l'insert avant nelem;
+                        while(nelem !=NULL ){
+                            if(nelem->j>j){
+                                celem=nelem;
+                                nelem=nelem->next;
+                            }
+                            else{
+                                break;
+                            }
+                        }
+                        //on a trouvé le bon endroit, on va créer l'élément et diriger les pointeurs correctement
+                        elem->next= nelem;
+                        celem->next=elem;
+
+                    }
+               }
             }
         }
+        //la ligne n'existe pas
+        else{
+            //Si val vaut 0, alors comme la ligne n'existe pas, il ne faut pas la créer
+            if(val==0) return 0;
+            else{
+
+            }
+
+        }
     }
+    //Si la matrice est nulle, on rajoute la ligne i et l'élement j
     else{
-        if(val!=0){
-            struct line* line=(struct line*) malloc(sizeof(struct line));
-            line->i=i;
-            line->next=NULL;
+        if(val !=0){
+            struct line* line =(struct line*) malloc(sizeof(struct line));
             struct elem* elem=(struct elem*) malloc(sizeof(struct elem));
+            line->i=i;
             elem->j=j;
             elem->value=val;
             elem->next=NULL;
+            line->next=NULL;
             line->elems=elem;
             matrix->lines=line;
         }
-    }*/
+    }
+    //TODO une fois l'élément inséré, si val vaut 0, on vérifie que la ligne n'est pas nulle
+    //     Si c'est le cas, on la supprime
+    //
+  
+   
     return 0;   
 }
 
@@ -315,10 +352,11 @@ void print(const struct matrix *matrix){
 
 int main(){
     struct matrix * mat = matrix_init(5,4);
-    int a=matrix_set(mat, 1,1,1);
+    int a=matrix_set(mat, 1,2,1);
     printf("a = %d\n",a);
-    a=matrix_set(mat ,2,2,2);
-    printf("a = %d\n",a);
+    print(mat);
+    a=matrix_set(mat ,1,1,3);
+    //printf("a = %d\n",a);
     print(mat);
         //struct line* line1=mat->lines;
     //struct line* line2=line1->next;
