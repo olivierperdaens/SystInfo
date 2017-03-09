@@ -386,6 +386,24 @@ void print(const struct matrix *matrix){
 
 int main(){
 
+    
+    int*array[1];
+    int arr_1[1]={1};
+    array[0]=arr_1;
+    struct matrix * matrix = matrix_init(1,1);
+    size_t i,j;
+    // Pour chaque élément du tableau en index [i][j], on va l'ajouter à la
+    // matrice en [i][j] en faisant attention à respecter les invariants
+    for(i=0;i<1;i++){
+        for(j=0;j<1;j++){
+            matrix_set(matrix, i, j, array[i][j]);
+        }
+    }
+    print(matrix);
+    free(matrix);
+    printf("\n");
+
+    /*
     int *array[3];
     int *array1[3];
     int arr_1[4] = { 1, 2, 3, 4, };
@@ -410,13 +428,13 @@ int main(){
     print(mat2);
     printf("\n");
     struct matrix* mat3=matrix_transpose(mat);
-    print(mat3);
-    free(mat);
-    free(mat1);
-    free(mat2);
-    free(mat3);
+    print(mat3);*/
+    //free(mat);
+    //free(mat1);
+    //free(mat2);
+    //free(mat3);
 
-    /*struct matrix * mat = matrix_init(5,4);
+    struct matrix * mat = matrix_init(5,4);
     int a=matrix_set(mat, 1,2,1);
     printf("a = %d\n",a);
     print(mat);
@@ -432,7 +450,7 @@ int main(){
     //printf("index of first line : %d, %d \n",line1->i,line1->elems->j);
     //printf("index of second line : %d, %d \n",line2->i,line2->elems->j);
 
-    matrix_free(mat);*/
+    matrix_free(mat);
     //free(elem1);
     //free(line1);
     //free(mat);
