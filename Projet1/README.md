@@ -12,7 +12,5 @@
 - [x] Impression de la matrice
 
 - [ ] Tests
-- [ ] MakeFile
+- [x] MakeFile
 - [ ] Documentation et commentaires
-
-- [ ] Rapport

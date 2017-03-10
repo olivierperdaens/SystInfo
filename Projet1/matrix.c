@@ -176,7 +176,9 @@ int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
                 elem->value=val;
 
                 //Si val vaut 0, alors comme l'élément n'existe pas, il ne faut pas le créer
-                if(val==0) return 0;
+                if(val==0){
+                    free(elem); 
+                    return 0; }
                 else{
                     //Si le premier element de la ligne est d'indice plus grand, on insert le nouvel element avant
                     if(celem->j>j){
