@@ -182,16 +182,29 @@ int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
                     else{
                         cline->elems=celem->next;
                         free(celem);
-                        int a=matrix_zeroline(matrix, i);
-                        return a;
+                        if(cline->elems==NULL){
+                            int a=matrix_zeroline(matrix, i);
+                            return a;
+                        }
+                        return 0;
                     }
                 }
+                struct elem* pelem=celem;
                 while (celem->j!=j){
+                    pelem=celem;
                     celem=celem->next;
                 }
-                celem->value=val;
-                return 0;
-            }
+                if(val !=0){
+                    celem->value=val;
+                    return 0;
+
+                }
+                else{
+                    pelem->next=celem->next;
+                    free(celem);
+                    return 0;
+                }
+                            }
             //l'element n'existe pas, on va l'insérer
             else{
                 struct elem* elem=(struct elem*) malloc(sizeof(struct elem));
@@ -213,8 +226,9 @@ int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
                         struct elem* nelem=celem->next;
                         //on cherche l'endroit où insérer le nouvel élément afin de respecter l'ordre d'index
                         //si le prochain element est NULL ou si son index est plus grand que j alors on l'insert avant nelem;
+                        //TODO CORRIGER BUG !!!
                         while(nelem !=NULL ){
-                            if(nelem->j>j){
+                            if(nelem->j<j){
                                 celem=nelem;
                                 nelem=nelem->next;
                             }
@@ -253,7 +267,7 @@ int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
                     struct line* cline=matrix->lines;
                     struct line* nline=cline->next;
                     while(nline!=NULL){
-                        if(nline->i>i){
+                        if(nline->i<i){
                             cline=nline;
                             nline=nline->next;
                         }
