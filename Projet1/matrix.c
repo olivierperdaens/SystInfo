@@ -115,10 +115,33 @@ int line_checkelem(const struct line* line, unsigned int j){
 }
 
 /* matrix_zeroline
- * Après attribution de la valeur 0 à la ligne d'index i, 
- * vérifie si la ligne ne contient que des 0
+ * Supprime la ligne d'index i et redirige les pointeurs correctement
  *
+ * @matrix: Matrice à manipuler
+ *
+ * Préconditions: l'index i existe
+ * Postconditions: la ligne i a été enlevée et la mémoire de la ligne @i est libérée
  */
+int matrix_zeroline(struct matrix* matrix,unsigned int i){
+    struct line* current =matrix->lines;
+    if(current->i==i){
+        matrix->lines=current->next;
+        free(current);
+        return 0;
+    }
+    else{
+       struct line* nline=current->next;
+       while(nline->i!=i){
+            current=nline;
+            nline=nline->next;
+       }
+       current->next=nline->next;
+       free(nline);
+       return 0;
+    }
+    return -1;
+}
+
 
 /* matrix_set
  * Défini la valeur d'un élément de la matrice.
@@ -159,8 +182,8 @@ int matrix_set(struct matrix *matrix, unsigned int i, unsigned int j, int val){
                     else{
                         cline->elems=celem->next;
                         free(celem);
-                        //matrix_zeroline(matrix, i);
-                        return 0;
+                        int a=matrix_zeroline(matrix, i);
+                        return a;
                     }
                 }
                 while (celem->j!=j){
