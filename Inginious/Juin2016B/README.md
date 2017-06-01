@@ -2,7 +2,7 @@
 ## Traduction de code assembleur
 La fonction suivante a été écrite en assembleur. Traduisez la en une version équivalente en C. Votre fonction doit nécessairement avoir comme nom __mp__.
 
-``` 
+```assembly
 mp:
     subl $8, %esp
     movl 16(%esp), %edx
@@ -22,7 +22,7 @@ mp1: movl %ecx, %eax
 ## Redirection des flux de sortie et d'erreur standards
 Implémentez la fonction run_redir dont les spécifications sont fournies ci-dessous. Il est interdit d'utiliser la fonction __system__ de la librairie standard.
 
-```
+```c
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
