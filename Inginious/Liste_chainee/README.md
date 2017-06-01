@@ -1,7 +1,7 @@
 # Listes chaînées: concepts de base
 Une liste chaînée est une structure de données permettant de représenter une séquence d’éléments. Dans cet exercice, une liste chaînée sera représentée par un pointeur sur la structure suivante:
 
-```
+```c
 typedef struct node {
   int value;
   struct node *next;
