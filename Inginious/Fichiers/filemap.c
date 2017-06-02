@@ -10,6 +10,9 @@ int count(char *filename, char c) {
     int count_char=0;
     int cha;
     FILE* file=fopen(filename,"r");
+    struct stat st;
+    int result=stat(filename,&st);
+    if(result<0){return 0;}
     if(file){
         while((cha=getc(file))!=EOF){
             if(c==cha) count_char++;
