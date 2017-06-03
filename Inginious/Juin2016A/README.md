@@ -21,6 +21,29 @@ l:  addl $2, %ebx
     ret
 ```
 
+# fork.c
+## Déterminer la valeur de retour d'un programme exécutable
+```c
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+/*
+ * @pre : prog!=null, arg!=null
+ * @post: exécute le programme prog en lui passant
+ *       arg comme arguments et sans environnement.
+ *       Retourne
+ *       -1 si le programme n'est pas exécutable
+ *       ou a retourné une valeur de retour >0
+ *       0 si il s'exécute correctement et retourne une valeur de retour = 0
+ *       -2 si il s'exécute et est interrompu par la réception d'un signal
+ */
+int run(char *prog, char *arg[]) {
+```
+
 # run_redir.c
 ## Redirection des flux de sortie et d'erreur standards
 La fonction reverse, dont les spécifications sont reprises ci-dessous, permet de manipuler les données dans un fichier.
