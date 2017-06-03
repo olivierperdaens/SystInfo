@@ -43,3 +43,33 @@ Implémentez la fonction run_redir dont les spécifications sont fournies ci-des
 int run_redir(char *prog, char* argv[], char *file) {
 // insérez ici le code sans terminer par }
 ```
+
+
+# snr.c
+## Search and replace
+
+Implémentez la fonction __sr__ dont les spécifications sont fournies ci-dessous.
+```c
+#include <sys/uio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <string.h>
+
+/*
+ * @pre filename!=NULL, src!=NULL, dst!=NULL, len >0
+ *      src et dst pointent vers des zones de tailles len
+ *      le fichier filename a comme taille un multiple entier de len
+ * @post modifie le contenu du fichier filename en remplaçant
+ *       toutes les occurences des blocs de données src par dst.
+ *       Le fichier est supposé découpé en blocs de taille len
+ *       aux positions 0, len, 2*len, ...
+ *       retourne le nombre de blocs remplacés et -1 en cas d'erreur
+ *       Il est interdit d'utiliser mmap et vous devez utiliser malloc
+ *       pour allouer la mémoire dont vous avez besoin. Pour accéder au fichier, vous pouvez uniquement utiliser open, read, lseek, write et close.
+ */
+int sr(char *filename, char *src, char *dst, ssize_t len) {
+// insérez votre code ici sans terminer par }
+```
