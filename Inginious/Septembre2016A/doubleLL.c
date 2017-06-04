@@ -88,4 +88,4 @@ int delete(list *l, int key){
         if(current==NULL) return count;
     }
     return count;
-
+}
