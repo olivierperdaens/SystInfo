@@ -60,7 +60,7 @@ int swap(char *filename, int i, int j) {
     double jVal=0;
     if(fd==-1) return -1;
     while(err !=0){
-        err2=read(fd,(void*)buffer,sizeof(double));
+        err=read(fd,(void*)buffer,sizeof(double));
         if(err==-1)return -1;
         if(i==i2)iVal=*buffer;
         if(j==j2)jVal=*buffer;
