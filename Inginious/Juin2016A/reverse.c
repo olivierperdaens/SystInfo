@@ -30,13 +30,16 @@ int reverse(char *filename) {
     int j=0;
     char* inter=malloc(size);
     for(i=size-1;i>=0;i--){
-        inter[i]=src[i];
+        inter[i]=src[j];
         j++;
     }
-    memcpy(inter,src,size+1);
-    if(msync(src,size+1,MS_SYNC)<0) return -1;
-    if(munmap(src,size)<0) return -1;
-    if(close(fd)==-1) return -1;
+    memcpy(src,inter,size+1);
+    if(msync(src,size+1,MS_SYNC)<0) 
+        return -1;
+    if(munmap(src,size)<0) 
+        return -1;
+    if(close(fd)==-1) 
+        return -1;
     return 0;
 }
 
