@@ -42,21 +42,21 @@ void sbuf_clean(sbuf_t *sp)
  *   *       comme une queue FIFO
  *    */
 void sbuf_insert(sbuf_t *sp, int item){
-    sem_wait(&items);
-    sem_wait(&mutex);
+    sem_wait(&sp->slots);
+    sem_wait(&sp->mutex);
     sp->rear++;
     sp->buf[(sp->rear)%(sp->n)]=item;
-    sem_post(&mutex);
-    sem_post(&slots);
+    sem_post(&sp->mutex);
+    sem_post(&sp->items);
 }
 
 int sbuf_remove(sbuf_t *sp){
     int ret;
-    sem_wait(&slots);
-    sem_wait(&mutex);
+    sem_wait(&sp->items);
+    sem_wait(&sp->mutex);
     ret=sp->buf[(sp->front+1)%(sp->n)];
     sp->buf[(sp->front+1)%(sp->n)]=0;
     sp->front++;
-    sem_post(&mutex);
-    sem_post(&items);
+    sem_post(&sp->mutex);
+    sem_post(&sp->slots);
 }
